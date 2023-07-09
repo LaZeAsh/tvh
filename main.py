@@ -48,6 +48,10 @@ def clear_fields():
     activity_time_entry.delete(0, tk.END)
     activity_location_entry.delete(0, tk.END)
 
+def set_phone_field(number):
+    phone_entry.delete(0, tk.END)
+    phone_entry.insert(0, number.replace("-", "").replace("(", "").replace(")", "").replace(" ", ""))
+
 root = tk.Tk()
 root.title("Form")
 
@@ -75,7 +79,6 @@ appointment_checkbox.grid(row=2, columnspan=2, sticky=tk.W, padx=10, pady=(10, 0
 # Checkbox for "Reservation"
 reservation_var = tk.IntVar()
 reservation_checkbox = ttk.Checkbutton(frame, text="Reservation", variable=reservation_var)
-reservation_checkbox.grid(row=3, columnspan=2, sticky=tk.W, padx=10, pady=(0, 10))
 
 # Entry field for "Activity"
 activity_label = ttk.Label(frame, text="Activity:")
@@ -103,19 +106,19 @@ table_frame = ttk.Frame(root)
 table_frame.pack(pady=(0, 20), padx=20)
 
 # Define the table headers
-header1 = ttk.Label(table_frame, text="Business Name", anchor=tk.W, width=20)
+header1 = ttk.Label(table_frame, text="Business Name", anchor=tk.W, width=20, font=('San Francisco', 13, 'bold'))
 header1.grid(row=0, column=0, sticky=tk.NSEW, padx=5, pady=5)
-header2 = ttk.Label(table_frame, text="Phone Number", anchor=tk.CENTER, width=20)
+header2 = ttk.Label(table_frame, text="Phone Number", anchor=tk.CENTER, width=20, font=('San Francisco', 13, 'bold'))
 header2.grid(row=0, column=1, sticky=tk.NSEW, padx=5, pady=5)
 
 # Define table rows
-business_names = [f"Business {row + 1}" for row in range(5)]
-phone_numbers = [f"123-456-{row + 1:02d}" for row in range(5)]
+business_names = ["Museum on Main", "Pleasanton Barber Shop", "Pleasanton Marriott", "Tri Valley Bistro", "Stanford Health Care"]
+phone_numbers = ["(925) 462-2766", "(925) 399-6870", "(925) 847-6000", "(925) 523-3815", "(925) 847-3000"]
 
 for row, (business_name, phone_number) in enumerate(zip(business_names, phone_numbers), start=1):
     label1 = ttk.Label(table_frame, text=business_name, anchor=tk.W)
     label1.grid(row=row, column=0, sticky=tk.NSEW, padx=5, pady=5)
-    button = ttk.Button(table_frame, text=phone_number, width=15, command=lambda number=phone_number: do_something(number))
+    button = ttk.Button(table_frame, text=phone_number, width=15, command=lambda number=phone_number: set_phone_field(number))
     button.grid(row=row, column=1, sticky=tk.NSEW, padx=5, pady=5)
 
 # Set weights to make the table expand horizontally
